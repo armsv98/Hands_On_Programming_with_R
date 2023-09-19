@@ -17,7 +17,18 @@ args(sample)
 
 # Writing functions
 roll <- function(my_sample = 1:6) {
-  dice <- sample(x = my_sample, size = 2, replace = TRUE)
+  dice <- sample(x = my_sample, size = 2, replace = TRUE,
+                 prob = c(1/8, 1/8, 1/8, 1/8, 1/8, 3/8))
   sum(dice)
 }
 roll()
+
+# Packages
+library(ggplot2)
+x <- 1:12
+fibo_seq <- c(0, 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 56)
+# Scatter plot
+qplot(x, fibo_seq)
+
+# Histogram
+qplot(replicate(10000, roll()), geom = "histogram")
