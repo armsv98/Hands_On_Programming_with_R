@@ -36,12 +36,13 @@ powers_of_two_array
 now <- Sys.time()
 typeof(now)
 
-# Factor: storing categorial information
+# Factor: storing categorical information
 
 # Coercion: 
 char_vector <- c(TRUE, 5, "a")
 num_vector <- c(TRUE, 2, 5, FALSE)
 sum(num_vector)
+
 # Converting data from one type to another
 as.character(TRUE)
 
@@ -78,3 +79,77 @@ as_dataframe5 <- deck[1:5, c(FALSE, TRUE, TRUE)]
 
 # Names: 
 as_dataframe6 <- deck[1:2, c("face", "suit")]
+
+
+# Deal a card:
+deal <- function(cards){
+  cards[1, ]
+}
+
+shuffle <- function(cards){
+  random <- sample(1:52, 52)
+  cards[random, ]
+}
+
+shuffled_deck <- shuffle(deck)
+deal(shuffled_deck)
+
+# Dollar sign: extract values of a column from data frame as a vector or
+# elements of list that have names
+deck$face
+
+# Double bracket: returns value of element
+prime_numbers <- list(2, 3, 5, 7, 11, 13, 17)
+retrieving_data_as_object <- prime_numbers[2]
+retrieving_data_as_values <- prime_numbers[[2]]
+
+
+# Modifying values
+deck2 <- deck
+deck2$new <- 1:52
+deck2$new <- NULL
+
+deck2$value[c(13, 26, 39, 52)] <- 14
+
+war_deck <- shuffle(deck)
+war_deck$value[deck$face == 'ace'] <- 14
+war_deck
+
+hearts_deck <- shuffle(deck)
+hearts_deck$value[hearts_deck$suit != "hearts"] <- 0
+hearts_deck$value[hearts_deck$suit == "hearts"] <- 1
+hearts_deck$value[hearts_deck$suit == "spades" & hearts_deck$face == "queen"] <- 13
+hearts_deck
+
+# Missing information: NA
+mean(c(NA, 1:50), na.rm = TRUE)
+is.na(c(1, 2, 3, NA))
+
+
+# Environments
+library(pryr)
+parenvs(all = TRUE)
+as.environment("package:pryr")
+environment()
+# Objects saved in an environment
+ls(globalenv())
+
+# Scoping rules: 1) R looks for object in the current active environment
+# 2) while working with command line, active environment is global environment
+# 3) When R does not find an object in an environment, R looks in the 
+# environment’s parent environment, then the parent of the parent, and so on,
+# until R finds the object or reaches the empty environment.
+
+# Evaluation: R will use the new environment as the active environment while
+# it runs the function, and then R will return to the environment that you
+# called the function from, bringing the function’s result with it.
+
+show_env <- function(x){
+  a <- 1
+  b <- 2
+  c <- 3
+  list(ran.in = environment(), parent = parent.env(environment()),
+       objects = ls.str(environment()))
+}
+
+show_env("runtime environment indicator")
